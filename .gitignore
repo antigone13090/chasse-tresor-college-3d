@@ -36,3 +36,6 @@ desktop.ini
 
 sysinfo.txt
 crashlytics-build.properties
+
+# Sauvegardes locales créées pendant le développement
+*.before_*
