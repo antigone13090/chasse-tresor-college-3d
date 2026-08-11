@@ -1,0 +1,17 @@
+Textures utilisées dans CollegeTreasure3D.
+
+Source : ambientCG
+Licence : Creative Commons CC0
+
+Assets utilisés :
+- Concrete010
+- WoodFloor041
+- Tiles040
+- Grass008
+- Metal036
+
+Site officiel :
+https://ambientcg.com/
+
+Licence :
+https://docs.ambientcg.com/license/
