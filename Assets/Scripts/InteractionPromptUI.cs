@@ -34,6 +34,9 @@ public class InteractionPromptUI : MonoBehaviour
 
     void OnGUI()
     {
+        if (Time.timeScale <= 0f)
+            return;
+
         if (player == null)
         {
             player = FindFirstObjectByType<PlayerInteraction3D>();
