@@ -37,3 +37,10 @@ Conserver le parcours d'origine comme **Chapitre 1** et créer six **nouveaux ni
 - Aucune impasse bloquante; énigmes résolubles, explications et indices disponibles.
 - Tests existants toujours verts et nouveaux tests pour chaque niveau.
 - Documentation et consignes de build reproductibles.
+
+## État d'implémentation de la branche
+
+Le socle modulaire, le menu de campagne, la sauvegarde et les six niveaux sont implémentés. Les
+résultats reproductibles et les limites de validation sont consignés dans `docs/VALIDATION_V2.md` ;
+les choix techniques dans `docs/CAMPAGNE_V2_ARCHITECTURE.md` ; l'exploitation pédagogique dans
+`docs/CAMPAGNE_V2_GUIDE_ENSEIGNANT.md`.
