@@ -30,6 +30,7 @@ public static class CampaignV2Validator
         ValidateBuildSettings();
         ValidateRules();
         ValidateSaveRoundTrip();
+        ValidateSaveRecovery();
         ValidateCompletePlaythroughs();
         ValidateRuntimeConstruction();
         ValidateInteractionPhysics();
@@ -150,6 +151,51 @@ public static class CampaignV2Validator
         Check(unsupported.unlockedThroughChapter == 2 && unsupported.schemaVersion == 1,
             "Sauvegarde : schema futur non interprete comme schema actuel.");
 
+    }
+
+
+    static void ValidateSaveRecovery()
+    {
+        string folder = Path.Combine(Path.GetTempPath(), "campaign-v2-review-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(folder);
+        string primary = Path.Combine(folder, "campaign-v2.json");
+        string backup = primary + ".bak";
+        try
+        {
+            CampaignSaveData preserved = new CampaignSaveData
+            {
+                unlockedThroughChapter = 6,
+                lastPlayedLevelId = "arts-motifs"
+            };
+            File.WriteAllText(backup, CampaignProgressService.SerializeForTests(preserved));
+
+            File.WriteAllText(primary, "{ invalid json");
+            CampaignSaveData fromCorrupt = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
+            Check(fromCorrupt.unlockedThroughChapter == 6 &&
+                fromCorrupt.lastPlayedLevelId == "arts-motifs",
+                "Sauvegarde : fichier JSON corrompu restaure depuis .bak.");
+
+            File.WriteAllText(primary, CampaignProgressService.SerializeForTests(
+                new CampaignSaveData { schemaVersion = 99, unlockedThroughChapter = 7 }));
+            CampaignSaveData fromFuture = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
+            Check(fromFuture.unlockedThroughChapter == 6,
+                "Sauvegarde : schema futur restaure depuis .bak.");
+
+            File.Delete(primary);
+            CampaignSaveData fromMissing = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
+            Check(fromMissing.unlockedThroughChapter == 6,
+                "Sauvegarde : fichier principal absent restaure depuis .bak.");
+
+            File.Delete(backup);
+            CampaignSaveData fromEmpty = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
+            Check(fromEmpty.unlockedThroughChapter == 2,
+                "Sauvegarde : deux fichiers absents donnent une progression neuve.");
+        }
+        finally
+        {
+            if (Directory.Exists(folder))
+                Directory.Delete(folder, true);
+        }
     }
 
     static void ValidateRuntimeConstruction()
