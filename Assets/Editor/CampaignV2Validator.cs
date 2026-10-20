@@ -132,6 +132,23 @@ public static class CampaignV2Validator
         Check(restored.unlockedThroughChapter == 5, "Sauvegarde : chapitre debloque restaure.");
         Check(restored.completedLevelIds.SequenceEqual(source.completedLevelIds), "Sauvegarde : niveaux termines restaures.");
         Check(restored.checkpoints.Count == 1 && restored.checkpoints[0].state == "2|0", "Sauvegarde : checkpoint multi-etape restaure.");
+        CampaignSaveData overflow = new CampaignSaveData { unlockedThroughChapter = 999 };
+        CampaignSaveData bounded = CampaignProgressService.DeserializeForTests(
+            CampaignProgressService.SerializeForTests(overflow));
+        Check(bounded.unlockedThroughChapter == 7, "Sauvegarde : chapitre plafonne a 7.");
+        Check(!CampaignProgressService.IsUnlocked(0), "Progression : chapitre zero interdit.");
+
+        CampaignSaveData underflow = new CampaignSaveData { unlockedThroughChapter = -100 };
+        CampaignSaveData lowerBound = CampaignProgressService.DeserializeForTests(
+            CampaignProgressService.SerializeForTests(underflow));
+        Check(lowerBound.unlockedThroughChapter == 2, "Sauvegarde : chapitre minimal restaure.");
+
+        CampaignSaveData future = new CampaignSaveData { schemaVersion = 99, unlockedThroughChapter = 7 };
+        CampaignSaveData unsupported = CampaignProgressService.DeserializeForTests(
+            CampaignProgressService.SerializeForTests(future));
+        Check(unsupported.unlockedThroughChapter == 2 && unsupported.schemaVersion == 1,
+            "Sauvegarde : schema futur non interprete comme schema actuel.");
+
     }
 
     static void ValidateRuntimeConstruction()
