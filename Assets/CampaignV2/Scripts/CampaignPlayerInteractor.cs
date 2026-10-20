@@ -30,22 +30,24 @@ namespace CollegeTreasure.Campaign
             if (playerCamera == null)
                 playerCamera = GetComponentInChildren<Camera>();
 
+            ProcessInput(Input.GetKeyDown(KeyCode.Tab),
+                Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return));
+        }
+
+        // Separate input sampling from interaction logic so two consecutive frames can be tested.
+        void ProcessInput(bool tabPressed, bool interactPressed)
+        {
             ICampaignInteractable aimed = FindAimedInteractable();
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
+            if (tabPressed)
                 keyboardFocused = SelectWithKeyboard();
-            }
 
             if (keyboardFocused != null && !CanReach(keyboardFocused))
                 keyboardFocused = null;
 
             focused = keyboardFocused ?? aimed;
 
-            if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return))
-                && focused != null && CanReach(focused))
-            {
+            if (interactPressed && focused != null && CanReach(focused))
                 focused.Interact(this);
-            }
         }
 
         bool CanReach(ICampaignInteractable candidate)
@@ -85,10 +87,9 @@ namespace CollegeTreasure.Campaign
             return CanReach(candidate);
         }
 
-        public void SelectForEditorTest()
+        public void SimulateInputFrameForEditorTest(bool tabPressed, bool interactPressed)
         {
-            keyboardFocused = SelectWithKeyboard();
-            focused = keyboardFocused;
+            ProcessInput(tabPressed, interactPressed);
         }
 
         public string FocusedActionIdForEditorTest
