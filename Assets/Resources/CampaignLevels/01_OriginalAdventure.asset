@@ -22,8 +22,8 @@ MonoBehaviour:
   completionMessage: L'aventure originale reste disponible independamment de la campagne
     V2.
   hints: []
-  primarySequence: 
-  switchSolution: 
+  primarySequence:
+  switchSolution:
   labels: []
   optionalTimer: 0
   primaryColor: {r: 0.12, g: 0.38, b: 0.62, a: 1}

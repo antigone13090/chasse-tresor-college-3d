@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9db8e4e11ac8c85888ada245a2630b27, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CollegeTreasure.Campaign.CampaignLevelBootstrap
   definition: {fileID: 11400000, guid: 4fc6f1455c87f4a01b5fa8a880506d7a, type: 2}
 --- !u!4 &845845546

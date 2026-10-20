@@ -26,7 +26,7 @@ MonoBehaviour:
   - Lis les trois relations affichees au-dessus de la console.
   - Les interrupteurs 1, 3 et 4 doivent avoir le meme etat.
   - La solution est ON, OFF, ON, ON. Les essais sont illimites.
-  primarySequence: 
+  primarySequence:
   switchSolution: 01000101
   labels: []
   optionalTimer: 0

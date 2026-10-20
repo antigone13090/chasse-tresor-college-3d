@@ -27,7 +27,7 @@ MonoBehaviour:
   - 'Chaque fragment porte une lettre : lis-les dans l''ordre A, B, C.'
   - La combinaison complete est 4, 1, 7. Une erreur ne supprime pas les fragments.
   primarySequence: 040000000100000007000000
-  switchSolution: 
+  switchSolution:
   labels: []
   optionalTimer: 0
   primaryColor: {r: 0.12, g: 0.42, b: 0.62, a: 1}

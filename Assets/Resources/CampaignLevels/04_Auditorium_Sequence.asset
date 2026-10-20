@@ -27,7 +27,7 @@ MonoBehaviour:
   - 'Le grand afficheur ecrit chaque couleur : le son n''est jamais obligatoire.'
   - La sequence est JAUNE, ROUGE, VERT, BLEU. Une erreur relance seulement la saisie.
   primarySequence: 02000000000000000300000001000000
-  switchSolution: 
+  switchSolution:
   labels: []
   optionalTimer: 0
   primaryColor: {r: 0.38, g: 0.16, b: 0.52, a: 1}

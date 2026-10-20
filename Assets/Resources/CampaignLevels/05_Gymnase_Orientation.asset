@@ -26,7 +26,7 @@ MonoBehaviour:
   - Les obstacles se contournent tous par au moins deux chemins.
   - 'Le temps affiche est facultatif : aucune limite ne peut faire echouer le niveau.'
   primarySequence: 0000000001000000020000000300000004000000
-  switchSolution: 
+  switchSolution:
   labels: []
   optionalTimer: 1
   primaryColor: {r: 0.08, g: 0.48, b: 0.22, a: 1}

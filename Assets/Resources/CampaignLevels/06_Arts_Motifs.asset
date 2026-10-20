@@ -26,7 +26,7 @@ MonoBehaviour:
   - Pense successivement aux angles, aux couleurs opposees puis a l'alternance.
   - 'Les choix sont : cercle jaune, arc vert, puis colonne rouge.'
   primarySequence: 010000000300000002000000
-  switchSolution: 
+  switchSolution:
   labels: []
   optionalTimer: 0
   primaryColor: {r: 0.54, g: 0.2, b: 0.12, a: 1}
