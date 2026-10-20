@@ -14,7 +14,7 @@ namespace CollegeTreasure.Campaign
 
         public string CurrentPrompt
         {
-            get { return focused == null ? string.Empty : focused.InteractionPrompt; }
+            get { return focused == null || !CanReach(focused) ? string.Empty : focused.InteractionPrompt; }
         }
 
         void Start()
@@ -26,6 +26,9 @@ namespace CollegeTreasure.Campaign
         {
             if (Time.timeScale <= 0f)
                 return;
+
+            if (playerCamera == null)
+                playerCamera = GetComponentInChildren<Camera>();
 
             ICampaignInteractable aimed = FindAimedInteractable();
             if (Input.GetKeyDown(KeyCode.Tab))
@@ -54,6 +57,8 @@ namespace CollegeTreasure.Campaign
             if (target == null || Vector3.Distance(transform.position, target.position) > interactionDistance)
                 return false;
 
+            if (playerCamera == null)
+                playerCamera = GetComponentInChildren<Camera>();
             Vector3 origin = playerCamera != null ? playerCamera.transform.position : transform.position;
             Vector3 direction = target.position - origin;
             float distance = direction.magnitude;
@@ -72,6 +77,29 @@ namespace CollegeTreasure.Campaign
 
             return false;
         }
+
+#if UNITY_EDITOR
+        // Physics regression checks only: real Tab/Return input still needs PlayMode coverage.
+        public bool CanReachForEditorTest(ICampaignInteractable candidate)
+        {
+            return CanReach(candidate);
+        }
+
+        public void SelectForEditorTest()
+        {
+            keyboardFocused = SelectWithKeyboard();
+            focused = keyboardFocused;
+        }
+
+        public string FocusedActionIdForEditorTest
+        {
+            get
+            {
+                CampaignActionObject action = focused as CampaignActionObject;
+                return action == null ? null : action.ActionId;
+            }
+        }
+#endif
 
         ICampaignInteractable FindAimedInteractable()
         {
