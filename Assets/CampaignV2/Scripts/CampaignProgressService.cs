@@ -49,7 +49,7 @@ namespace CollegeTreasure.Campaign
 
         public static bool IsUnlocked(int chapterNumber)
         {
-            return chapterNumber <= Data.unlockedThroughChapter;
+            return chapterNumber >= 1 && chapterNumber <= 7 && chapterNumber <= Data.unlockedThroughChapter;
         }
 
         public static bool IsCompleted(string levelId)
@@ -70,7 +70,7 @@ namespace CollegeTreasure.Campaign
 
             Data.unlockedThroughChapter = Mathf.Max(
                 Data.unlockedThroughChapter,
-                chapterNumber + 1);
+                Mathf.Clamp(chapterNumber + 1, 2, 7));
 
             RemoveCheckpoint(levelId);
             SaveToDisk();
@@ -177,10 +177,16 @@ namespace CollegeTreasure.Campaign
             if (data == null)
                 return NewSave();
 
+            if (data.schemaVersion > CurrentSchemaVersion || data.schemaVersion < 1)
+                return NewSave();
+
             data.schemaVersion = CurrentSchemaVersion;
-            data.unlockedThroughChapter = Mathf.Max(2, data.unlockedThroughChapter);
+            data.unlockedThroughChapter = Mathf.Clamp(data.unlockedThroughChapter, 2, 7);
             data.completedLevelIds = data.completedLevelIds ?? new List<string>();
             data.checkpoints = data.checkpoints ?? new List<CampaignCheckpoint>();
+            data.completedLevelIds.RemoveAll(id => string.IsNullOrWhiteSpace(id));
+            data.completedLevelIds = new List<string>(new HashSet<string>(data.completedLevelIds));
+            data.checkpoints.RemoveAll(item => item == null || string.IsNullOrWhiteSpace(item.levelId) || item.step < 0);
 
             if (string.IsNullOrWhiteSpace(data.lastPlayedLevelId))
                 data.lastPlayedLevelId = "cdi-codes";
@@ -213,11 +219,16 @@ namespace CollegeTreasure.Campaign
 
                 if (File.Exists(path))
                 {
-                    File.Copy(path, backup, true);
-                    File.Delete(path);
+                    // Preserve a known-good backup before swapping the current save.
+                    if (TryRead(path) != null)
+                        File.Copy(path, backup, true);
+                    File.Replace(temp, path, null);
+                }
+                else
+                {
+                    File.Move(temp, path);
                 }
 
-                File.Move(temp, path);
             }
             catch (Exception exception)
             {
