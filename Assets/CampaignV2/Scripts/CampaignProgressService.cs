@@ -142,8 +142,11 @@ namespace CollegeTreasure.Campaign
 
         static CampaignSaveData LoadFromDisk()
         {
-            string path = SavePath;
-            string backup = path + ".bak";
+            return LoadFromPaths(SavePath, SavePath + ".bak");
+        }
+
+        static CampaignSaveData LoadFromPaths(string path, string backup)
+        {
 
             CampaignSaveData loaded = TryRead(path);
             if (IsSupportedSave(loaded))
@@ -171,6 +174,13 @@ namespace CollegeTreasure.Campaign
                 return null;
             }
         }
+
+#if UNITY_EDITOR
+        public static CampaignSaveData LoadFromPathsForEditorTest(string primary, string backup)
+        {
+            return LoadFromPaths(primary, backup);
+        }
+#endif
 
         static bool IsSupportedSave(CampaignSaveData data)
         {
