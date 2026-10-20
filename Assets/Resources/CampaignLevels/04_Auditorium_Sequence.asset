@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdc613429cf31aaa9af2d2818ae04ac, type: 3}
+  m_Name: 04_Auditorium_Sequence
+  m_EditorClassIdentifier: Assembly-CSharp::CollegeTreasure.Campaign.CampaignLevelDefinition
+  levelId: auditorium-sequence
+  chapterNumber: 4
+  sceneName: V2_03_Auditorium_Sequence
+  title: Auditorium, sons et sequences
+  description: Observe et ecoute quatre signaux, puis reproduis-les sur les pads
+    de la scene.
+  puzzleKind: 3
+  initialObjective: Lance la sequence puis reproduis les quatre couleurs dans le
+    bon ordre.
+  completionMessage: La sequence de l'auditorium est restituee, avec ou sans le son.
+  hints:
+  - Le bouton Rejouer repete la sequence autant de fois que necessaire.
+  - 'Le grand afficheur ecrit chaque couleur : le son n''est jamais obligatoire.'
+  - La sequence est JAUNE, ROUGE, VERT, BLEU. Une erreur relance seulement la saisie.
+  primarySequence: 02000000000000000300000001000000
+  switchSolution: 
+  labels: []
+  optionalTimer: 0
+  primaryColor: {r: 0.38, g: 0.16, b: 0.52, a: 1}
+  accentColor: {r: 0.94, g: 0.25, b: 0.42, a: 1}
+  ambience: {fileID: 8300000, guid: 1df0b8d6d99a0a036ba4ec25119ba472, type: 3}
+  interactionSound: {fileID: 8300000, guid: 4e16d3f7ec7c548b599125680916c2da, type: 3}
+  successSound: {fileID: 8300000, guid: 6939569cd6a69562eb305b6de642376a, type: 3}

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdc613429cf31aaa9af2d2818ae04ac, type: 3}
+  m_Name: 02_CDI_Codes
+  m_EditorClassIdentifier: Assembly-CSharp::CollegeTreasure.Campaign.CampaignLevelDefinition
+  levelId: cdi-codes
+  chapterNumber: 2
+  sceneName: V2_01_CDI_Codes
+  title: CDI, codes caches
+  description: Explore un CDI autonome, retrouve trois fragments dissimules et ouvre
+    sa porte codee.
+  puzzleKind: 1
+  initialObjective: Retrouve les trois fragments de code caches dans le CDI.
+  completionMessage: 'La porte du CDI est ouverte : premier niveau supplementaire
+    termine.'
+  hints:
+  - Inspecte les rayonnages sur les deux cotes de la salle.
+  - 'Chaque fragment porte une lettre : lis-les dans l''ordre A, B, C.'
+  - La combinaison complete est 4, 1, 7. Une erreur ne supprime pas les fragments.
+  primarySequence: 040000000100000007000000
+  switchSolution: 
+  labels: []
+  optionalTimer: 0
+  primaryColor: {r: 0.12, g: 0.42, b: 0.62, a: 1}
+  accentColor: {r: 0.95, g: 0.62, b: 0.12, a: 1}
+  ambience: {fileID: 8300000, guid: 1df0b8d6d99a0a036ba4ec25119ba472, type: 3}
+  interactionSound: {fileID: 8300000, guid: 4e16d3f7ec7c548b599125680916c2da, type: 3}
+  successSound: {fileID: 8300000, guid: 6939569cd6a69562eb305b6de642376a, type: 3}
