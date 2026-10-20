@@ -146,11 +146,11 @@ namespace CollegeTreasure.Campaign
             string backup = path + ".bak";
 
             CampaignSaveData loaded = TryRead(path);
-            if (loaded != null)
+            if (IsSupportedSave(loaded))
                 return Normalize(loaded);
 
             loaded = TryRead(backup);
-            if (loaded != null)
+            if (IsSupportedSave(loaded))
                 return Normalize(loaded);
 
             return NewSave();
@@ -170,6 +170,12 @@ namespace CollegeTreasure.Campaign
                 Debug.LogWarning("Sauvegarde V2 illisible: " + exception.Message);
                 return null;
             }
+        }
+
+        static bool IsSupportedSave(CampaignSaveData data)
+        {
+            return data != null && data.schemaVersion >= 1 &&
+                data.schemaVersion <= CurrentSchemaVersion;
         }
 
         static CampaignSaveData Normalize(CampaignSaveData data)
@@ -220,7 +226,8 @@ namespace CollegeTreasure.Campaign
                 if (File.Exists(path))
                 {
                     // Preserve a known-good backup before swapping the current save.
-                    if (TryRead(path) != null)
+                    // Never overwrite the backup with a corrupt or unsupported primary.
+                    if (IsSupportedSave(TryRead(path)))
                         File.Copy(path, backup, true);
                     File.Replace(temp, path, null);
                 }
