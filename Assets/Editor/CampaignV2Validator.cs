@@ -311,7 +311,19 @@ public static class CampaignV2Validator
     }
 
 
-    // EditMode physics regression. Does not simulate actual keyboard frames.
+    sealed class InteractionRegressionPuzzle : CampaignPuzzleBase
+    {
+        public int interactionCount;
+        public override int CurrentStep { get { return interactionCount; } }
+        protected override void Build(CampaignCheckpoint checkpoint) { }
+        public override void HandleAction(string actionId)
+        {
+            if (actionId == "regression-target")
+                interactionCount++;
+        }
+    }
+
+    // Editor physics and synthetic-frame regression; not a hardware input PlayMode test.
     static void ValidateInteractionPhysics()
     {
         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -327,7 +339,8 @@ public static class CampaignV2Validator
         target.name = "RegressionTarget";
         target.transform.position = new Vector3(0f, 1.5f, 3f);
         CampaignActionObject action = target.AddComponent<CampaignActionObject>();
-        action.Configure(null, "regression-target", "Tester", Color.green);
+        InteractionRegressionPuzzle probe = new InteractionRegressionPuzzle();
+        action.Configure(probe, "regression-target", "Tester", Color.green);
         Physics.SyncTransforms();
 
         Check(interactor.CanReachForEditorTest(action),
@@ -341,6 +354,8 @@ public static class CampaignV2Validator
         interactor.SimulateInputFrameForEditorTest(false, true);
         Check(interactor.FocusedActionIdForEditorTest == "regression-target",
             "Interaction physique : Entree sur une frame distincte conserve la bonne cible.");
+        Check(probe.interactionCount == 1,
+            "Interaction physique : Entree declenche exactement une action metier.");
 
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
         wall.transform.position = new Vector3(0f, 1.5f, 1.5f);
@@ -348,6 +363,9 @@ public static class CampaignV2Validator
         Physics.SyncTransforms();
         Check(!interactor.CanReachForEditorTest(action),
             "Interaction physique : mur bloque la cible.");
+        interactor.SimulateInputFrameForEditorTest(false, true);
+        Check(probe.interactionCount == 1,
+            "Interaction physique : mur empeche toute action supplementaire.");
         interactor.SimulateInputFrameForEditorTest(false, false);
         Check(interactor.FocusedActionIdForEditorTest == null,
             "Interaction physique : cible clavier invalidee si un mur intervient.");
@@ -359,6 +377,9 @@ public static class CampaignV2Validator
             "Interaction physique : cible hors portee refusee.");
         Check(string.IsNullOrEmpty(interactor.CurrentPrompt),
             "Interaction physique : aucun prompt hors portee.");
+        interactor.SimulateInputFrameForEditorTest(false, true);
+        Check(probe.interactionCount == 1,
+            "Interaction physique : cible hors portee ne declenche pas d'action.");
 
         UnityEngine.Object.DestroyImmediate(player);
         UnityEngine.Object.DestroyImmediate(target);
