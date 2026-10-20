@@ -32,6 +32,7 @@ public static class CampaignV2Validator
         ValidateSaveRoundTrip();
         ValidateCompletePlaythroughs();
         ValidateRuntimeConstruction();
+        ValidateInteractionPhysics();
         ValidateMetas();
         Finish();
     }
@@ -307,6 +308,49 @@ public static class CampaignV2Validator
         }
 
         action.Interact(null);
+    }
+
+
+    // EditMode physics regression. Does not simulate actual keyboard frames.
+    static void ValidateInteractionPhysics()
+    {
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        GameObject player = new GameObject("RegressionPlayer");
+        player.transform.position = Vector3.zero;
+        CampaignPlayerInteractor interactor = player.AddComponent<CampaignPlayerInteractor>();
+        GameObject cameraObject = new GameObject("RegressionCamera");
+        cameraObject.transform.SetParent(player.transform, false);
+        cameraObject.transform.localPosition = new Vector3(0f, 1.5f, 0f);
+        cameraObject.AddComponent<Camera>();
+
+        GameObject target = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        target.name = "RegressionTarget";
+        target.transform.position = new Vector3(0f, 1.5f, 3f);
+        CampaignActionObject action = target.AddComponent<CampaignActionObject>();
+        action.Configure(null, "regression-target", "Tester", Color.green);
+        Physics.SyncTransforms();
+
+        Check(interactor.CanReachForEditorTest(action),
+            "Interaction physique : objet proche sans obstacle accessible.");
+        interactor.SelectForEditorTest();
+        Check(interactor.FocusedActionIdForEditorTest == "regression-target",
+            "Interaction physique : selection clavier conserve la cible.");
+
+        GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        wall.transform.position = new Vector3(0f, 1.5f, 1.5f);
+        wall.transform.localScale = new Vector3(2f, 2f, 0.25f);
+        Physics.SyncTransforms();
+        Check(!interactor.CanReachForEditorTest(action),
+            "Interaction physique : mur bloque la cible.");
+        UnityEngine.Object.DestroyImmediate(wall);
+
+        target.transform.position = new Vector3(0f, 1.5f, 12f);
+        Physics.SyncTransforms();
+        Check(!interactor.CanReachForEditorTest(action),
+            "Interaction physique : cible hors portee refusee.");
+
+        UnityEngine.Object.DestroyImmediate(player);
+        UnityEngine.Object.DestroyImmediate(target);
     }
 
     static void ValidateMetas()
