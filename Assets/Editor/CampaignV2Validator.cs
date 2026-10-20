@@ -190,6 +190,24 @@ public static class CampaignV2Validator
             CampaignSaveData fromEmpty = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
             Check(fromEmpty.unlockedThroughChapter == 2,
                 "Sauvegarde : deux fichiers absents donnent une progression neuve.");
+
+            string temporary = primary + ".tmp";
+            File.WriteAllText(temporary, CampaignProgressService.SerializeForTests(preserved));
+            CampaignSaveData fromTemp = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
+            Check(fromTemp.unlockedThroughChapter == 6,
+                "Sauvegarde : ecriture temporaire complete recuperee sans principal ni backup.");
+
+            File.WriteAllText(temporary, "{ invalid json");
+            CampaignSaveData invalidTemp = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
+            Check(invalidTemp.unlockedThroughChapter == 2,
+                "Sauvegarde : fichier temporaire corrompu ignore.");
+
+            File.WriteAllText(backup, CampaignProgressService.SerializeForTests(
+                new CampaignSaveData { unlockedThroughChapter = 4 }));
+            File.WriteAllText(temporary, CampaignProgressService.SerializeForTests(preserved));
+            CampaignSaveData backupBeforeTemp = CampaignProgressService.LoadFromPathsForEditorTest(primary, backup);
+            Check(backupBeforeTemp.unlockedThroughChapter == 4,
+                "Sauvegarde : backup valide prioritaire sur fichier temporaire.");
         }
         finally
         {
