@@ -332,9 +332,15 @@ public static class CampaignV2Validator
 
         Check(interactor.CanReachForEditorTest(action),
             "Interaction physique : objet proche sans obstacle accessible.");
-        interactor.SelectForEditorTest();
+        interactor.SimulateInputFrameForEditorTest(true, false);
         Check(interactor.FocusedActionIdForEditorTest == "regression-target",
-            "Interaction physique : selection clavier conserve la cible.");
+            "Interaction physique : Tab selectionne la cible.");
+        interactor.SimulateInputFrameForEditorTest(false, false);
+        Check(interactor.FocusedActionIdForEditorTest == "regression-target",
+            "Interaction physique : selection Tab persiste sur la frame suivante.");
+        interactor.SimulateInputFrameForEditorTest(false, true);
+        Check(interactor.FocusedActionIdForEditorTest == "regression-target",
+            "Interaction physique : Entree sur une frame distincte conserve la bonne cible.");
 
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
         wall.transform.position = new Vector3(0f, 1.5f, 1.5f);
@@ -342,12 +348,17 @@ public static class CampaignV2Validator
         Physics.SyncTransforms();
         Check(!interactor.CanReachForEditorTest(action),
             "Interaction physique : mur bloque la cible.");
+        interactor.SimulateInputFrameForEditorTest(false, false);
+        Check(interactor.FocusedActionIdForEditorTest == null,
+            "Interaction physique : cible clavier invalidee si un mur intervient.");
         UnityEngine.Object.DestroyImmediate(wall);
 
         target.transform.position = new Vector3(0f, 1.5f, 12f);
         Physics.SyncTransforms();
         Check(!interactor.CanReachForEditorTest(action),
             "Interaction physique : cible hors portee refusee.");
+        Check(string.IsNullOrEmpty(interactor.CurrentPrompt),
+            "Interaction physique : aucun prompt hors portee.");
 
         UnityEngine.Object.DestroyImmediate(player);
         UnityEngine.Object.DestroyImmediate(target);
