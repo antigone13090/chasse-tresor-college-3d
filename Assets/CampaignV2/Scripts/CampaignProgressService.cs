@@ -156,6 +156,11 @@ namespace CollegeTreasure.Campaign
             if (IsSupportedSave(loaded))
                 return Normalize(loaded);
 
+            // A fully written temporary save may survive an interrupted first write.
+            loaded = TryRead(path + ".tmp");
+            if (IsSupportedSave(loaded))
+                return Normalize(loaded);
+
             return NewSave();
         }
 
