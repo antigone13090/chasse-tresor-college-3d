@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdc613429cf31aaa9af2d2818ae04ac, type: 3}
+  m_Name: 03_Laboratoire_Logique
+  m_EditorClassIdentifier: Assembly-CSharp::CollegeTreasure.Campaign.CampaignLevelDefinition
+  levelId: laboratoire-logique
+  chapterNumber: 3
+  sceneName: V2_02_Laboratoire_Logique
+  title: Laboratoire, logique
+  description: Deduis l'etat de quatre interrupteurs, teste ta combinaison et ouvre
+    le sas du laboratoire.
+  puzzleKind: 2
+  initialObjective: Regle les quatre interrupteurs puis valide la combinaison unique.
+  completionMessage: 'Le sas scientifique est stabilise : le niveau de logique est
+    termine.'
+  hints:
+  - Lis les trois relations affichees au-dessus de la console.
+  - Les interrupteurs 1, 3 et 4 doivent avoir le meme etat.
+  - La solution est ON, OFF, ON, ON. Les essais sont illimites.
+  primarySequence:
+  switchSolution: 01000101
+  labels: []
+  optionalTimer: 0
+  primaryColor: {r: 0.08, g: 0.48, b: 0.52, a: 1}
+  accentColor: {r: 0.92, g: 0.42, b: 0.14, a: 1}
+  ambience: {fileID: 8300000, guid: 1df0b8d6d99a0a036ba4ec25119ba472, type: 3}
+  interactionSound: {fileID: 8300000, guid: 4e16d3f7ec7c548b599125680916c2da, type: 3}
+  successSound: {fileID: 8300000, guid: 6939569cd6a69562eb305b6de642376a, type: 3}

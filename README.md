@@ -6,6 +6,9 @@ Le joueur explore un collège, découvre **six indices dans le bon ordre**, puis
 
 **Version stable : v1.0.0**
 
+> La branche `feature/v2-six-nouveaux-niveaux` contient la campagne V2 en développement.
+> Elle conserve l'aventure v1 comme chapitre 1 et ajoute six véritables niveaux autonomes.
+
 ## Télécharger le jeu
 
 | Plateforme | Téléchargement | Format |
@@ -58,6 +61,26 @@ Les indices doivent être trouvés dans cet ordre :
 5. Arts / Musique
 6. Self élèves
 7. Trésor final
+
+## Campagne V2 (branche de développement)
+
+Le menu de campagne distingue explicitement l'aventure originale des six niveaux supplémentaires :
+
+1. **Chapitre 1 — L'aventure originale** : scène `CollegePrototype`, six indices et trésor v1 inchangés ;
+2. **CDI, codes cachés** : trois fragments à explorer puis une porte à code ;
+3. **Laboratoire, logique** : quatre interrupteurs et une combinaison déduite ;
+4. **Auditorium, sons et séquences** : séquence sonore et visuelle, jouable sans audio ;
+5. **Gymnase, orientation** : cinq balises, parcours sans élimination et temps facultatif ;
+6. **Arts et musique, motifs** : énigme de formes, couleurs et rythme en trois étapes ;
+7. **Le collège secret** : finale en cinq phases et nouveau trésor.
+
+La progression V2 est sauvegardée automatiquement dans `Application.persistentDataPath/campaign-v2.json`.
+Chaque niveau possède un point de reprise, des aides progressives (`H` ou `F1`), une remise à zéro
+et une condition de victoire indépendante. Les interactions peuvent être ciblées à la souris ou au
+clavier avec `Tab`, puis `Entrée`.
+
+Voir [le guide enseignant](docs/CAMPAGNE_V2_GUIDE_ENSEIGNANT.md) et
+[la documentation d'architecture](docs/CAMPAGNE_V2_ARCHITECTURE.md).
 
 ## Fonctionnalités
 
@@ -135,6 +158,22 @@ Le dépôt contient `build-mac.command` pour automatiser la validation, le build
 ### Windows et Linux
 
 Les scripts Unity présents dans `Assets/Editor/` permettent de lancer les builds desktop depuis Unity.
+
+Sur la branche V2, utiliser les méthodes dédiées afin d'obtenir des binaires identifiés `2.0.0` :
+
+```bash
+# Validation V2 déterministe
+Unity -batchmode -nographics -projectPath . \
+  -executeMethod CampaignV2Validator.Run -quit -logFile Logs/campaign-v2-validation.log
+
+# Build Linux V2 (adapter le chemin de Unity)
+Unity -batchmode -nographics -projectPath . \
+  -executeMethod CampaignV2DesktopBuild.BuildLinux -quit -logFile Logs/campaign-v2-linux-build.log
+```
+
+Les sorties V2 sont écrites dans `Builds/V2/`. Les méthodes équivalentes Windows et macOS sont
+`CampaignV2DesktopBuild.BuildWindows` et `CampaignV2DesktopBuild.BuildMac` ; elles nécessitent les
+modules Unity correspondants.
 
 ## Avertissements de sécurité au premier lancement
 

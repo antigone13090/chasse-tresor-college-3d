@@ -6,7 +6,28 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/CampaignV2/Scenes/CampaignMenu.unity
+    guid: 32ce296e181954efc9532cad03442f61
+  - enabled: 1
     path: Assets/Scenes/CollegePrototype.unity
     guid: ad278becb7d68fb539d6e2de54306b99
+  - enabled: 1
+    path: Assets/CampaignV2/Scenes/V2_01_CDI_Codes.unity
+    guid: ead22f1682b19bd5682e5ee94380c7dd
+  - enabled: 1
+    path: Assets/CampaignV2/Scenes/V2_02_Laboratoire_Logique.unity
+    guid: 0143101087ebdfe2b9ed056fbd1a6395
+  - enabled: 1
+    path: Assets/CampaignV2/Scenes/V2_03_Auditorium_Sequence.unity
+    guid: b8101f0af37ceb67cbabcadfc4e37847
+  - enabled: 1
+    path: Assets/CampaignV2/Scenes/V2_04_Gymnase_Orientation.unity
+    guid: 393b58cf7dbfb2ee0a0fb10ebe6767c1
+  - enabled: 1
+    path: Assets/CampaignV2/Scenes/V2_05_Arts_Motifs.unity
+    guid: d613248888f40e78e930658143b5e10d
+  - enabled: 1
+    path: Assets/CampaignV2/Scenes/V2_06_College_Secret.unity
+    guid: b7a181742d03be26abcf9808434f6c19
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
